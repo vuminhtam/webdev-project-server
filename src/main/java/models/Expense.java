@@ -1,5 +1,7 @@
 package models;
 
+import java.sql.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,7 +21,14 @@ public class Expense {
 	private int ammount;
 	private String type;
 	private String note;
+	private Date expenseDate;
 
+	public Date getExpenseDate() {
+		return expenseDate;
+	}
+	public void setExpenseDate(Date expenseDate) {
+		this.expenseDate = expenseDate;
+	}
 	@ManyToOne
 	@JsonIgnore
 	private Group group;
