@@ -22,8 +22,14 @@ public class PaymentDue {
 	private Date expenseDate;
 	private String reminderType;
 	
+	@ManyToOne
+	@JsonIgnore
 	private User from;
+	@ManyToOne
+	@JsonIgnore
 	private User to;
+	@ManyToOne
+	@JsonIgnore
 	private Group group;
 	
 	
