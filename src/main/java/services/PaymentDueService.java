@@ -31,7 +31,7 @@ public class PaymentDueService {
 		Optional<Group> optionalGroup = groupRepo.findById(groupId);
 		if(optionalGroup.isPresent()) {
 			Group group = optionalGroup.get();
-			List<PaymentDue> paymentDues = group.getPaymentDues();
+			List<PaymentDue> paymentDues = group.getPaymentDue();
 			return paymentDues;
 		}
 		else {
