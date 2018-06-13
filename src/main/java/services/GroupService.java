@@ -92,7 +92,7 @@ public class GroupService {
 	}
 	
 	@GetMapping("/api/group/{groupId}")
-	public PaymentDue getPaymentDue(@PathVariable("groupId") int groupId) {
+	public List<PaymentDue> getPaymentDue(@PathVariable("groupId") int groupId) {
 		Optional<Group> data = groupRepo.findById(groupId);
 		if(data.isPresent()) {
 			Group group = data.get();

@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Group {
@@ -16,8 +17,12 @@ public class Group {
 	private String note;
 	private GroupAdmin admin;
 	private List<GroupMember> members;
+	
+	@OneToMany(mappedBy="group")
 	private List<Expense> expenses;
-	private PaymentDue paymentDue;
+	
+	@OneToMany(mappedBy="group")
+	private List<PaymentDue> paymentDue;
 	
 	public int getId() {
 		return id;
@@ -55,12 +60,13 @@ public class Group {
 	public void setExpenses(List<Expense> expenses) {
 		this.expenses = expenses;
 	}
-	public PaymentDue getPaymentDue() {
+	public List<PaymentDue> getPaymentDue() {
 		return paymentDue;
 	}
-	public void setPaymentDue(PaymentDue paymentDue) {
+	public void setPaymentDue(List<PaymentDue> paymentDue) {
 		this.paymentDue = paymentDue;
 	}
+	
 	
 	
 	
