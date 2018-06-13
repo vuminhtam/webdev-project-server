@@ -18,6 +18,7 @@ import com.example.webdevsummer12018.models.Exam;
 import com.example.webdevsummer12018.models.Group;
 import com.example.webdevsummer12018.models.Question;
 import com.example.webdevsummer12018.models.User;
+import com.example.webdevsummer12018.models.Widget;
 
 import models.Expense;
 import models.TravelExpense;
@@ -95,25 +96,15 @@ public class ExpenseService {
 		}
 	}
 	
-	
-	@PutMapping("/api/travel/{id}")
-	public TravelExpense updateTravelExpenseById(
-			@PathVariable("id") int id,
-			@RequestBody TravelExpense newExpense) {
-		Optional<TravelExpense> retrieve = travelExpRepo.findById(id);
-		if(retrieve.isPresent()) {
-			TravelExpense expense = retrieve.get();
-			expense.setAmmount(newExpense.getAmmount());
-			expense.setExpenser(newExpense.getExpenser());
-			expense.setFrom(newExpense.getFrom());
-			expense.setTo(newExpense.getTo());
-			expense.setNote(newExpense.getNote());
-			return expense;
-		}
-		else {
-			throw new IllegalArgumentException("Cannot find expense " + id);
-		}
-	}
 
-	
+	@PostMapping("/api/group/{groupId}/expense/save")
+	public void saveAllExpenseToGroup(
+			@PathVariable("groupId") int groupId,
+			@RequestBody List<Expense> newList) {
+		List<Expense> groupExpenses = this.getAllExpenseByGroup(groupId);
+		for(Expense w: groupExpenses) {
+			expenseRepo.deleteById(w.getId());
+		}
+		expenseRepo.saveAll(newList);
+	}	
 }
