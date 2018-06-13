@@ -1,5 +1,6 @@
 package services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import models.Expense;
 import models.Group;
+import models.GroupMember;
+import models.PaymentDue;
 import repositories.GroupAdminRepository;
 import repositories.GroupMemberRepository;
 import repositories.GroupRepository;
@@ -60,6 +64,41 @@ public class GroupService {
 			group.setNote(newGroup.getNote());
 			group.setAdmin(newGroup.getAdmin());
 			group.setMembers(newGroup.getMembers());
+			group.setExpenses(newGroup.getExpenses());
+			group.setPaymentDue(newGroup.getPaymentDue());
+		}
+	}
+	
+	@GetMapping("/api/group/{groupId}")
+	public List<GroupMember> getMembers(@PathVariable("groupId") int groupId) {
+		Optional<Group> data = groupRepo.findById(groupId);
+		if(data.isPresent()) {
+			Group group = data.get();
+			return group.getMembers();
+		} else {
+			return null;
+		}
+	}
+	
+	@GetMapping("/api/group/{groupId}")
+	public List<Expense> getExpenses(@PathVariable("groupId") int groupId) {
+		Optional<Group> data = groupRepo.findById(groupId);
+		if(data.isPresent()) {
+			Group group = data.get();
+			return group.getExpenses();
+		} else {
+			return null;
+		}
+	}
+	
+	@GetMapping("/api/group/{groupId}")
+	public PaymentDue getPaymentDue(@PathVariable("groupId") int groupId) {
+		Optional<Group> data = groupRepo.findById(groupId);
+		if(data.isPresent()) {
+			Group group = data.get();
+			return group.getPaymentDue();
+		} else {
+			return null;
 		}
 	}
 	

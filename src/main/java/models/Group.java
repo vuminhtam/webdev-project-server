@@ -16,6 +16,8 @@ public class Group {
 	private String note;
 	private GroupAdmin admin;
 	private List<GroupMember> members;
+	private List<Expense> expenses;
+	private PaymentDue paymentDue;
 	
 	public int getId() {
 		return id;
@@ -47,6 +49,20 @@ public class Group {
 	public void setMembers(List<GroupMember> members) {
 		this.members = members;
 	}
+	public List<Expense> getExpenses() {
+		return expenses;
+	}
+	public void setExpenses(List<Expense> expenses) {
+		this.expenses = expenses;
+	}
+	public PaymentDue getPaymentDue() {
+		return paymentDue;
+	}
+	public void setPaymentDue(PaymentDue paymentDue) {
+		this.paymentDue = paymentDue;
+	}
+	
+	
 	
 	
 }
