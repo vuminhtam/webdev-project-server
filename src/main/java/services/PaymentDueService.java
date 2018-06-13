@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import models.Expense;
+import models.Group;
 import models.PaymentDue;
+import repositories.GroupRepository;
 import repositories.PaymentDueRepository;
 
 @RestController
@@ -28,7 +30,7 @@ public class PaymentDueService {
 	public List<PaymentDue> getAllDueByGroup(@PathVariable("groupId") int groupId) {
 		Optional<Group> optionalGroup = groupRepo.findById(groupId);
 		if(optionalGroup.isPresent()) {
-			Group group = group.get();
+			Group group = optionalGroup.get();
 			List<PaymentDue> paymentDues = group.getPaymentDues();
 			return paymentDues;
 		}

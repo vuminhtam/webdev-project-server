@@ -13,20 +13,20 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.webdevsummer12018.models.EssayQuestion;
-import com.example.webdevsummer12018.models.Exam;
-import com.example.webdevsummer12018.models.Group;
-import com.example.webdevsummer12018.models.Question;
-import com.example.webdevsummer12018.models.User;
-import com.example.webdevsummer12018.models.Widget;
 
 import models.Expense;
+import models.Group;
+import models.Person;
 import models.TravelExpense;
+import models.User;
 import repositories.AccomodationExpenseRepository;
 import repositories.ExpenseRepository;
 import repositories.FoodExpenseRepository;
+import repositories.GroupRepository;
 import repositories.OtherExpenseRepository;
+import repositories.PersonRepository;
 import repositories.TravelExpenseRepository;
+import repositories.UserRepository;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -87,8 +87,8 @@ public class ExpenseService {
 		Optional<User> user = userRepo.findById(uid);
 		Optional<Group> group = groupRepo.findById(groupId);
 		if(group.isPresent() && user.isPresent()) {
-			newExpense.setGroup(group);
-			newExpense.setExpenser(user);
+			newExpense.setGroup(group.get());
+			newExpense.setExpenser(user.get());
 			return expenseRepo.save(newExpense);
 		}
 		else {
