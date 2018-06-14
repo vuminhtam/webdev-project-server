@@ -23,10 +23,9 @@ public class Expense {
 	private String note;
 	private Date expenseDate;
 
-	
 	@ManyToOne
 	@JsonIgnore
-	private Group group;
+	private BillGroup group;
 	
 	@ManyToOne
 	@JsonIgnore
@@ -44,10 +43,10 @@ public class Expense {
 	public void setAmmount(int ammount) {
 		this.ammount = ammount;
 	}
-	public Group getGroup() {
+	public BillGroup getGroup() {
 		return group;
 	}
-	public void setGroup(Group group) {
+	public void setGroup(BillGroup group) {
 		this.group = group;
 	}
 	public User getExpenser() {

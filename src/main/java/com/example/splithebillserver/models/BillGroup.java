@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Group {
+public class BillGroup {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;

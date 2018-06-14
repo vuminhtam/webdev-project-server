@@ -9,13 +9,13 @@ import javax.persistence.OneToMany;
 public class GroupAdmin extends User {
 	
 	@OneToMany(mappedBy = "admin")
-	private List<Group> groups;
+	private List<BillGroup> groups;
 
-	public List<Group> getGroup() {
+	public List<BillGroup> getGroup() {
 		return groups;
 	}
 
-	public void setGroup(List<Group> group) {
+	public void setGroup(List<BillGroup> group) {
 		this.groups = group;
 	}
 

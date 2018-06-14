@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.splithebillserver.models.Expense;
-import com.example.splithebillserver.models.Group;
+import com.example.splithebillserver.models.BillGroup;
 import com.example.splithebillserver.models.Person;
 import com.example.splithebillserver.models.TravelExpense;
 import com.example.splithebillserver.models.User;
@@ -49,9 +49,9 @@ public class ExpenseService {
 	
 	@GetMapping("/api/group/{groupId}/expense")
 	public List<Expense> getAllExpenseByGroup(@PathVariable("groupId") int groupId) {
-		Optional<Group> optionalExam = groupRepo.findById(groupId);
+		Optional<BillGroup> optionalExam = groupRepo.findById(groupId);
 		if(optionalExam.isPresent()) {
-			Group group = optionalExam.get();
+			BillGroup group = optionalExam.get();
 			List<Expense> expenses = group.getExpenses();
 			return expenses;
 		}
@@ -85,7 +85,7 @@ public class ExpenseService {
 			throw new IllegalArgumentException("Null type");
 		}
 		Optional<User> user = userRepo.findById(uid);
-		Optional<Group> group = groupRepo.findById(groupId);
+		Optional<BillGroup> group = groupRepo.findById(groupId);
 		if(group.isPresent() && user.isPresent()) {
 			newExpense.setGroup(group.get());
 			newExpense.setExpenser(user.get());

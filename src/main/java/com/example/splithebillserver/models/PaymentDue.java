@@ -30,7 +30,7 @@ public class PaymentDue {
 	
 	@ManyToOne
 	@JsonIgnore
-	private Group group;
+	private BillGroup group;
 	
 	
 	
@@ -82,10 +82,10 @@ public class PaymentDue {
 	public void setTo(User to) {
 		this.to = to;
 	}
-	public Group getGroup() {
+	public BillGroup getGroup() {
 		return group;
 	}
-	public void setGroup(Group group) {
+	public void setGroup(BillGroup group) {
 		this.group = group;
 	}
 }

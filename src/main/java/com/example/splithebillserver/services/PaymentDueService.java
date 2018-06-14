@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.splithebillserver.models.Expense;
-import com.example.splithebillserver.models.Group;
+import com.example.splithebillserver.models.BillGroup;
 import com.example.splithebillserver.models.PaymentDue;
 import com.example.splithebillserver.repositories.GroupRepository;
 import com.example.splithebillserver.repositories.PaymentDueRepository;
@@ -28,9 +28,9 @@ public class PaymentDueService {
 	
 	@GetMapping("/api/group/{groupId}/due")
 	public List<PaymentDue> getAllDueByGroup(@PathVariable("groupId") int groupId) {
-		Optional<Group> optionalGroup = groupRepo.findById(groupId);
+		Optional<BillGroup> optionalGroup = groupRepo.findById(groupId);
 		if(optionalGroup.isPresent()) {
-			Group group = optionalGroup.get();
+			BillGroup group = optionalGroup.get();
 			List<PaymentDue> paymentDues = group.getPaymentDue();
 			return paymentDues;
 		}

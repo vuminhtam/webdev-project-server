@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.splithebillserver.models.Expense;
-import com.example.splithebillserver.models.Group;
+import com.example.splithebillserver.models.BillGroup;
 import com.example.splithebillserver.models.GroupMember;
 import com.example.splithebillserver.models.PaymentDue;
 import com.example.splithebillserver.repositories.GroupAdminRepository;
@@ -36,8 +36,8 @@ public class GroupService {
 	GroupMemberRepository groupMemberRepo;
 	
 	@GetMapping("/api/group/{groupId}")
-	public Group getGroupById(@PathVariable ("groupId") int groupId) {
-		Optional<Group> data = groupRepo.findById(groupId);
+	public BillGroup getGroupById(@PathVariable ("groupId") int groupId) {
+		Optional<BillGroup> data = groupRepo.findById(groupId);
 		if(data.isPresent()) {
 			return data.get();
 		}
@@ -47,7 +47,7 @@ public class GroupService {
 	}
 	
 	@PostMapping("/api/group")
-	public Group addGroup(@RequestBody Group group) {
+	public BillGroup addGroup(@RequestBody BillGroup group) {
 		return groupRepo.save(group);
 	}
 	
@@ -57,10 +57,10 @@ public class GroupService {
 	}
 	
 	@PutMapping("/api/group/{groupId}")
-	public void updateGroup(@PathVariable("groupId") int groupId, @RequestBody Group newGroup) {
-		Optional<Group> data = groupRepo.findById(groupId);
+	public void updateGroup(@PathVariable("groupId") int groupId, @RequestBody BillGroup newGroup) {
+		Optional<BillGroup> data = groupRepo.findById(groupId);
 		if(data.isPresent()) {
-			Group group = data.get();
+			BillGroup group = data.get();
 			group.setName(newGroup.getName());
 			group.setNote(newGroup.getNote());
 			group.setAdmin(newGroup.getAdmin());
@@ -72,9 +72,9 @@ public class GroupService {
 	
 	@GetMapping("/api/group/{groupId}/members")
 	public List<GroupMember> getMembers(@PathVariable("groupId") int groupId) {
-		Optional<Group> data = groupRepo.findById(groupId);
+		Optional<BillGroup> data = groupRepo.findById(groupId);
 		if(data.isPresent()) {
-			Group group = data.get();
+			BillGroup group = data.get();
 			return group.getMembers();
 		} else {
 			return null;
@@ -83,9 +83,9 @@ public class GroupService {
 	
 	@GetMapping("/api/group/{groupId}/expenses")
 	public List<Expense> getExpenses(@PathVariable("groupId") int groupId) {
-		Optional<Group> data = groupRepo.findById(groupId);
+		Optional<BillGroup> data = groupRepo.findById(groupId);
 		if(data.isPresent()) {
-			Group group = data.get();
+			BillGroup group = data.get();
 			return group.getExpenses();
 		} else {
 			return null;

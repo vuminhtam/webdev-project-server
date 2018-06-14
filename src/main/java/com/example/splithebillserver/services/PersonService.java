@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.splithebillserver.models.Group;
+import com.example.splithebillserver.models.BillGroup;
 import com.example.splithebillserver.models.User;
 import com.example.splithebillserver.repositories.UserRepository;
 
