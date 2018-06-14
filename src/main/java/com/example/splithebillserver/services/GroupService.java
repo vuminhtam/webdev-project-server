@@ -70,7 +70,7 @@ public class GroupService {
 		}
 	}
 	
-	@GetMapping("/api/group/{groupId}")
+	@GetMapping("/api/group/{groupId}/members")
 	public List<GroupMember> getMembers(@PathVariable("groupId") int groupId) {
 		Optional<Group> data = groupRepo.findById(groupId);
 		if(data.isPresent()) {
@@ -81,7 +81,7 @@ public class GroupService {
 		}
 	}
 	
-	@GetMapping("/api/group/{groupId}")
+	@GetMapping("/api/group/{groupId}/expenses")
 	public List<Expense> getExpenses(@PathVariable("groupId") int groupId) {
 		Optional<Group> data = groupRepo.findById(groupId);
 		if(data.isPresent()) {
@@ -92,15 +92,15 @@ public class GroupService {
 		}
 	}
 	
-	@GetMapping("/api/group/{groupId}")
-	public List<PaymentDue> getPaymentDue(@PathVariable("groupId") int groupId) {
-		Optional<Group> data = groupRepo.findById(groupId);
-		if(data.isPresent()) {
-			Group group = data.get();
-			return group.getPaymentDue();
-		} else {
-			return null;
-		}
-	}
+//	@GetMapping("/api/group/{groupId}/due")
+//	public List<PaymentDue> getPaymentDue(@PathVariable("groupId") int groupId) {
+//		Optional<Group> data = groupRepo.findById(groupId);
+//		if(data.isPresent()) {
+//			Group group = data.get();
+//			return group.getPaymentDue();
+//		} else {
+//			return null;
+//		}
+//	}
 	
 }

@@ -1,17 +1,22 @@
 package com.example.splithebillserver.models;
 
+import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 
 @Entity
 public class GroupAdmin extends User {
-	private Group group;
+	
+	@OneToMany(mappedBy = "admin")
+	private List<Group> groups;
 
-	public Group getGroup() {
-		return group;
+	public List<Group> getGroup() {
+		return groups;
 	}
 
-	public void setGroup(Group group) {
-		this.group = group;
+	public void setGroup(List<Group> group) {
+		this.groups = group;
 	}
 
 	

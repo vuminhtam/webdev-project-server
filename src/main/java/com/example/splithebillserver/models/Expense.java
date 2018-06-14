@@ -23,12 +23,7 @@ public class Expense {
 	private String note;
 	private Date expenseDate;
 
-	public Date getExpenseDate() {
-		return expenseDate;
-	}
-	public void setExpenseDate(Date expenseDate) {
-		this.expenseDate = expenseDate;
-	}
+	
 	@ManyToOne
 	@JsonIgnore
 	private Group group;
@@ -75,5 +70,10 @@ public class Expense {
 	public void setNote(String note) {
 		this.note = note;
 	}
-	
+	public Date getExpenseDate() {
+		return expenseDate;
+	}
+	public void setExpenseDate(Date expenseDate) {
+		this.expenseDate = expenseDate;
+	}
 }

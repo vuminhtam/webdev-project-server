@@ -7,15 +7,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Group {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int group_id;
+	private int id;
 	private String name;
 	private String note;
+	
+	@ManyToOne
+	@JsonIgnore
 	private GroupAdmin admin;
 	
 	@ManyToMany(mappedBy = "group")
@@ -28,11 +34,12 @@ public class Group {
 	private List<PaymentDue> paymentDue;
 	
 	
-	public int getGroup_id() {
-		return group_id;
+	
+	public int getId() {
+		return id;
 	}
-	public void setGroup_id(int group_id) {
-		this.group_id = group_id;
+	public void setId(int id) {
+		this.id = id;
 	}
 	public String getName() {
 		return name;

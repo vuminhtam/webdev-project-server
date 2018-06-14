@@ -56,7 +56,7 @@ public class PaymentDueService {
 	}
 	
 	@PostMapping("/api/group/{groupId}/due/save")
-	public void saveAllExpenseToGroup(
+	public void saveAllDuesToGroup(
 			@PathVariable("groupId") int groupId,
 			@RequestBody List<PaymentDue> newList) {
 		List<PaymentDue> dues = this.getAllDueByGroup(groupId);
