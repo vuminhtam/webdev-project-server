@@ -17,15 +17,16 @@ public class GroupMember extends User {
 		        joinColumns = { @JoinColumn(name = "person_id") }, 
 		        inverseJoinColumns = { @JoinColumn(name = "group_id") }
 		    )
-	private List<BillGroup> group;
+	private List<BillGroup> billGroup;
 
-	public List<BillGroup> getGroup() {
-		return group;
+	public List<BillGroup> getBillGroup() {
+		return billGroup;
 	}
 
-	public void setGroup(List<BillGroup> group) {
-		this.group = group;
+	public void setBillGroup(List<BillGroup> billGroup) {
+		this.billGroup = billGroup;
 	}
+
 	
 	
 }

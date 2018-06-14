@@ -24,13 +24,13 @@ public class BillGroup {
 	@JsonIgnore
 	private GroupAdmin admin;
 	
-	@ManyToMany(mappedBy = "group")
+	@ManyToMany(mappedBy = "billGroup")
 	private List<GroupMember> members;
 	
-	@OneToMany(mappedBy="group")
+	@OneToMany(mappedBy="billGroup")
 	private List<Expense> expenses;
 	
-	@OneToMany(mappedBy="group")
+	@OneToMany(mappedBy="billGroup")
 	private List<PaymentDue> paymentDue;
 	
 	

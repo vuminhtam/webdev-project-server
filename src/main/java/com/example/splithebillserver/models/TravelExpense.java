@@ -4,26 +4,27 @@ import javax.persistence.Entity;
 
 @Entity
 public class TravelExpense extends Expense {
-	private String from;
-	private String to;
+	private String org;
+	private String dest;
 	private String transportation; //plane/taxi...
-	public String getFrom() {
-		return from;
-	}
-	public void setFrom(String from) {
-		this.from = from;
-	}
-	public String getTo() {
-		return to;
-	}
-	public void setTo(String to) {
-		this.to = to;
-	}
+	
 	public String getTransportation() {
 		return transportation;
 	}
 	public void setTransportation(String transportation) {
 		this.transportation = transportation;
+	}
+	public String getOrg() {
+		return org;
+	}
+	public void setOrg(String org) {
+		this.org = org;
+	}
+	public String getDest() {
+		return dest;
+	}
+	public void setDest(String dest) {
+		this.dest = dest;
 	}
 	
 }

@@ -81,13 +81,13 @@ public class ExpenseService {
 			@PathVariable("uid") int uid,
 			@PathVariable("groupId") int groupId,
 			@RequestBody Expense newExpense) {
-		if(newExpense.getType() == null || newExpense.getType().equals("")) {
+		if(newExpense.getExpenseType() == null || newExpense.getExpenseType().equals("")) {
 			throw new IllegalArgumentException("Null type");
 		}
 		Optional<User> user = userRepo.findById(uid);
 		Optional<BillGroup> group = groupRepo.findById(groupId);
 		if(group.isPresent() && user.isPresent()) {
-			newExpense.setGroup(group.get());
+			newExpense.setBillGroup(group.get());
 			newExpense.setExpenser(user.get());
 			return expenseRepo.save(newExpense);
 		}

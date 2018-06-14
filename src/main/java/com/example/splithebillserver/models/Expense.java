@@ -19,14 +19,20 @@ public class Expense {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	private int ammount;
-	private String type;
+	private String expenseType;
 	private String note;
 	private Date expenseDate;
 
 	@ManyToOne
 	@JsonIgnore
-	private BillGroup group;
+	private BillGroup billGroup;
 	
+	public BillGroup getBillGroup() {
+		return billGroup;
+	}
+	public void setBillGroup(BillGroup billGroup) {
+		this.billGroup = billGroup;
+	}
 	@ManyToOne
 	@JsonIgnore
 	private User expenser; 
@@ -43,24 +49,11 @@ public class Expense {
 	public void setAmmount(int ammount) {
 		this.ammount = ammount;
 	}
-	public BillGroup getGroup() {
-		return group;
-	}
-	public void setGroup(BillGroup group) {
-		this.group = group;
-	}
 	public User getExpenser() {
 		return expenser;
 	}
 	public void setExpenser(User expenser) {
 		this.expenser = expenser;
-	}
-	
-	public String getType() {
-		return type;
-	}
-	public void setType(String type) {
-		this.type = type;
 	}
 	
 	public String getNote() {
@@ -74,5 +67,11 @@ public class Expense {
 	}
 	public void setExpenseDate(Date expenseDate) {
 		this.expenseDate = expenseDate;
+	}
+	public String getExpenseType() {
+		return expenseType;
+	}
+	public void setExpenseType(String expenseType) {
+		this.expenseType = expenseType;
 	}
 }
