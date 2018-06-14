@@ -1,6 +1,9 @@
 package com.example.splithebillserver.models;
 
+import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 
 @Entity
 public class User extends Person{
@@ -8,6 +11,9 @@ public class User extends Person{
 	private String email;
 	private String phone;
 	private String pictureURL;
+	
+	@OneToMany(mappedBy="expenser")
+	private List<Expense> expenses;
 	
 	public String getPassword() {
 		return password;
@@ -33,6 +39,13 @@ public class User extends Person{
 	public void setPictureURL(String pictureURL) {
 		this.pictureURL = pictureURL;
 	}
+	public List<Expense> getExpenses() {
+		return expenses;
+	}
+	public void setExpenses(List<Expense> expenses) {
+		this.expenses = expenses;
+	}
+	
 	
 	
 }

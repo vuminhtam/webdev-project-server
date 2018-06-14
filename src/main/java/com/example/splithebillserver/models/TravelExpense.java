@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 public class TravelExpense extends Expense {
 	private String from;
 	private String to;
-	private String type; //plane/taxi...
+	private String transportation; //plane/taxi...
 	public String getFrom() {
 		return from;
 	}
@@ -19,10 +19,11 @@ public class TravelExpense extends Expense {
 	public void setTo(String to) {
 		this.to = to;
 	}
-	public String getType() {
-		return type;
+	public String getTransportation() {
+		return transportation;
 	}
-	public void setType(String type) {
-		this.type = type;
+	public void setTransportation(String transportation) {
+		this.transportation = transportation;
 	}
+	
 }
