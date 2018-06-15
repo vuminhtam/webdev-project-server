@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.splithebillserver.models.Expense;
 import com.example.splithebillserver.models.BillGroup;
-import com.example.splithebillserver.models.GroupMember;
 import com.example.splithebillserver.models.PaymentDue;
-import com.example.splithebillserver.repositories.GroupAdminRepository;
-import com.example.splithebillserver.repositories.GroupMemberRepository;
+import com.example.splithebillserver.models.User;
 import com.example.splithebillserver.repositories.GroupRepository;
+import com.example.splithebillserver.repositories.PersonRepository;
+import com.example.splithebillserver.repositories.UserRepository;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -28,12 +28,38 @@ public class GroupService {
 
 	@Autowired
 	GroupRepository groupRepo;
+//	
+//	@Autowired
+//	GroupAdminRepository groupAdminRepo;
+//	
+//	@Autowired
+//	GroupMemberRepository groupMemberRepo;
 	
 	@Autowired
-	GroupAdminRepository groupAdminRepo;
+	UserRepository userRepo;
 	
-	@Autowired
-	GroupMemberRepository groupMemberRepo;
+	
+	@GetMapping("/api/user/{userId}/admin/group")
+	public List<BillGroup> getGroupForUserAdmin(@PathVariable ("userId") int userId) {
+		Optional<User> data = userRepo.findById(userId);
+		if(data.isPresent()) {
+			return data.get().getGroupsAsAdmin();
+		}
+		else {
+			return null;
+		} 
+	}
+	
+	@GetMapping("/api/user/{userId}/member/group")
+	public List<BillGroup> getGroupForUserMember(@PathVariable ("userId") int userId) {
+		Optional<User> data = userRepo.findById(userId);
+		if(data.isPresent()) {
+			return data.get().getGroupsAsMember();
+		}
+		else {
+			return null;
+		} 
+	}
 	
 	@GetMapping("/api/group/{groupId}")
 	public BillGroup getGroupById(@PathVariable ("groupId") int groupId) {
@@ -71,7 +97,7 @@ public class GroupService {
 	}
 	
 	@GetMapping("/api/group/{groupId}/members")
-	public List<GroupMember> getMembers(@PathVariable("groupId") int groupId) {
+	public List<User> getMembers(@PathVariable("groupId") int groupId) {
 		Optional<BillGroup> data = groupRepo.findById(groupId);
 		if(data.isPresent()) {
 			BillGroup group = data.get();

@@ -22,10 +22,10 @@ public class BillGroup {
 	
 	@ManyToOne
 	@JsonIgnore
-	private GroupAdmin admin;
+	private User admin;
 	
-	@ManyToMany(mappedBy = "billGroup")
-	private List<GroupMember> members;
+	@ManyToMany(mappedBy = "groupsAsMember")
+	private List<User> members;
 	
 	@OneToMany(mappedBy="billGroup")
 	private List<Expense> expenses;
@@ -53,16 +53,16 @@ public class BillGroup {
 	public void setNote(String note) {
 		this.note = note;
 	}
-	public GroupAdmin getAdmin() {
+	public User getAdmin() {
 		return admin;
 	}
-	public void setAdmin(GroupAdmin admin) {
+	public void setAdmin(User admin) {
 		this.admin = admin;
 	}
-	public List<GroupMember> getMembers() {
+	public List<User> getMembers() {
 		return members;
 	}
-	public void setMembers(List<GroupMember> members) {
+	public void setMembers(List<User> members) {
 		this.members = members;
 	}
 	public List<Expense> getExpenses() {

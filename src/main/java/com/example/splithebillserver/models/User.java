@@ -2,7 +2,11 @@ package com.example.splithebillserver.models;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -15,6 +19,29 @@ public class User extends Person{
 	@OneToMany(mappedBy="expenser")
 	private List<Expense> expenses;
 	
+	@OneToMany(mappedBy = "admin")
+	private List<BillGroup> groupsAsAdmin;
+	
+	@ManyToMany(cascade= {CascadeType.ALL})
+	 @JoinTable(
+		        name = "Group_GroupMember", 
+		        joinColumns = { @JoinColumn(name = "person_id") }, 
+		        inverseJoinColumns = { @JoinColumn(name = "group_id") }
+		    )
+	private List<BillGroup> groupsAsMember;
+	
+	public List<BillGroup> getGroupsAsMember() {
+		return groupsAsMember;
+	}
+	public void setGroupsAsMember(List<BillGroup> groupsAsMember) {
+		this.groupsAsMember = groupsAsMember;
+	}
+	public List<BillGroup> getGroupsAsAdmin() {
+		return groupsAsAdmin;
+	}
+	public void setGroupsAsAdmin(List<BillGroup> groupsAsAdmin) {
+		this.groupsAsAdmin = groupsAsAdmin;
+	}
 	public String getPassword() {
 		return password;
 	}
