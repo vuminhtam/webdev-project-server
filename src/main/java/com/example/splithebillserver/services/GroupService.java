@@ -122,6 +122,15 @@ public class GroupService {
 		}
 	}
 	
+	@PutMapping("/api/group/{groupId}/members")
+	public void updateGroupMembers(@PathVariable("groupId") int groupId, @RequestBody List<User> newGroupMembers) {
+		Optional<BillGroup> data = groupRepo.findById(groupId);
+		if(data.isPresent()) {
+			BillGroup group = data.get();
+			group.setMembers(newGroupMembers);
+		}
+	}
+	
 	@GetMapping("/api/group/{groupId}/members")
 	public List<User> getMembers(@PathVariable("groupId") int groupId) {
 		Optional<BillGroup> data = groupRepo.findById(groupId);
