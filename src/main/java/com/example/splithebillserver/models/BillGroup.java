@@ -21,7 +21,6 @@ public class BillGroup {
 	private String note;
 	
 	@ManyToOne
-	@JsonIgnore
 	private User admin;
 	
 	@ManyToMany(mappedBy = "groupsAsMember")

@@ -9,6 +9,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class User extends Person{
 	private String password;
@@ -20,6 +22,7 @@ public class User extends Person{
 	private List<Expense> expenses;
 	
 	@OneToMany(mappedBy = "admin")
+	@JsonIgnore
 	private List<BillGroup> groupsAsAdmin;
 	
 	@ManyToMany(cascade= {CascadeType.ALL})
@@ -28,6 +31,7 @@ public class User extends Person{
 		        joinColumns = { @JoinColumn(name = "person_id") }, 
 		        inverseJoinColumns = { @JoinColumn(name = "group_id") }
 		    )
+	@JsonIgnore
 	private List<BillGroup> groupsAsMember;
 	
 	public List<BillGroup> getGroupsAsMember() {

@@ -38,6 +38,11 @@ public class GroupService {
 	@Autowired
 	UserRepository userRepo;
 	
+	@GetMapping("/api/group")
+	public List<BillGroup> getAllGroups() {
+		return (List<BillGroup>) groupRepo.findAll();
+	}
+	
 	@GetMapping("/api/user/{userId}/group")
 	public List<BillGroup> getGroupForUser(@PathVariable ("userId") int userId) {
 		Optional<User> data = userRepo.findById(userId);
