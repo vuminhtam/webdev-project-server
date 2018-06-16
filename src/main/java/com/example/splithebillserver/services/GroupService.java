@@ -38,6 +38,19 @@ public class GroupService {
 	@Autowired
 	UserRepository userRepo;
 	
+	@GetMapping("/api/user/{userId}/group")
+	public List<BillGroup> getGroupForUser(@PathVariable ("userId") int userId) {
+		Optional<User> data = userRepo.findById(userId);
+		if(data.isPresent()) {
+			User user = data.get();
+			List<BillGroup> group1 = user.getGroupsAsAdmin();
+			group1.addAll(user.getGroupsAsMember());
+			return group1;
+		}
+		else {
+			return null;
+		} 
+	}
 	
 	@GetMapping("/api/user/{userId}/admin/group")
 	public List<BillGroup> getGroupForUserAdmin(@PathVariable ("userId") int userId) {
@@ -72,9 +85,17 @@ public class GroupService {
 		} 
 	}
 	
-	@PostMapping("/api/group")
-	public BillGroup addGroup(@RequestBody BillGroup group) {
-		return groupRepo.save(group);
+	@PostMapping("/api/user/{userId}/group")
+	public BillGroup addGroupByUserId(@RequestBody BillGroup group, @PathVariable ("userId") int userId ) {
+		Optional<User> data = userRepo.findById(userId);
+		if(data.isPresent()) {
+			User user = data.get();
+			group.setAdmin(user);
+			return groupRepo.save(group);
+		}
+		else {
+			return null;
+		} 
 	}
 	
 	@DeleteMapping("/api/group/{groupId}")
