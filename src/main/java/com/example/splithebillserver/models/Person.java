@@ -11,7 +11,11 @@ import javax.persistence.InheritanceType;
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 public class Person {
 	@Id
+<<<<<<< paymentDue
 	@GeneratedValue(strategy=GenerationType.SEQUENCE)
+=======
+	@GeneratedValue(strategy=GenerationType.TABLE)
+>>>>>>> ignore
 	private long id;
 	private String username;
 	
