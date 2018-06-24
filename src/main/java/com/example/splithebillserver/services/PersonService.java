@@ -24,7 +24,8 @@ public class PersonService {
 	UserRepository userRepo;
 	
 	@GetMapping("/api/user/{userId}")
-	public User getUserById(@PathVariable("userId") int userId) {
+	public User getUserById(@PathVariable("userId") long userId) {
+		System.out.print(userId);
 		Optional<User> data = userRepo.findById(userId);
 		if(data.isPresent()) {
 			return data.get();
@@ -35,17 +36,21 @@ public class PersonService {
 	}
 	
 	@PostMapping("/api/user")
-	public User registerUser(@RequestBody User newUser) {
+	public User registerUser(@RequestBody User newUser) throws Exception {
+		if (userRepo.findUserByUsername(newUser.getUsername()).isPresent()) {
+			throw new Exception("Username taken");
+		} else {
 		return userRepo.save(newUser);
+		}
 	}
 	
 	@DeleteMapping("/api/user/{userId}")
-	public void deleteUser(@PathVariable("userId") int userId) {
+	public void deleteUser(@PathVariable("userId") long userId) {
 		userRepo.deleteById(userId);
 	}
 	
 	@PutMapping("/api/user/{userId}")
-	public void updateUser(@PathVariable("userId") int userId, @RequestBody User newUser) {
+	public void updateUser(@PathVariable("userId") long userId, @RequestBody User newUser) {
 		Optional<User> data = userRepo.findById(userId);
 		if(data.isPresent()) {
 			User user = data.get();
@@ -56,4 +61,24 @@ public class PersonService {
 			user.setUsername(newUser.getUsername());
 		}
 	}
+	
+	@PostMapping("/api/login")
+	public User login(@RequestBody User user) throws Exception {
+		if (userRepo.findUserByCredentials(user.getUsername(), user.getPassword()).isPresent()) {
+			return user;
+		} else {
+			throw new Exception("Account does not exist");
+		}
+	}
+	
+	@GetMapping("/api/username/{username}")
+	public User findUserByUsername(@PathVariable("username") String username) {
+		Optional<User> data = userRepo.findUserByUsername(username);
+		if (data.isPresent()) {
+			return data.get();
+		}
+		return null;
+	}
+	
+	
 }
