@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.splithebillserver.models.Expense;
+import com.example.splithebillserver.models.FacebookUser;
 import com.example.splithebillserver.models.BillGroup;
 import com.example.splithebillserver.models.PaymentDue;
 import com.example.splithebillserver.models.User;
+import com.example.splithebillserver.repositories.FacebookUserRepository;
 import com.example.splithebillserver.repositories.GroupRepository;
 import com.example.splithebillserver.repositories.PersonRepository;
 import com.example.splithebillserver.repositories.UserRepository;
@@ -37,6 +39,8 @@ public class GroupService {
 	
 	@Autowired
 	UserRepository userRepo;
+	@Autowired
+	FacebookUserRepository fbRepo;
 	
 	@GetMapping("/api/group")
 	public List<BillGroup> getAllGroups() {
@@ -64,8 +68,13 @@ public class GroupService {
 			return data.get().getGroupsAsAdmin();
 		}
 		else {
+			Optional<FacebookUser> data2 = fbRepo.findById(userId);
+			if(data2.isPresent()) {
+				return data2.get().getUserId().getGroupsAsAdmin();
+			} else {
 			return null;
-		} 
+			}
+		}
 	}
 	
 	@GetMapping("/api/user/{userId}/member/group")
@@ -75,8 +84,13 @@ public class GroupService {
 			return data.get().getGroupsAsMember();
 		}
 		else {
+			Optional<FacebookUser> data2 = fbRepo.findById(userId);
+			if(data2.isPresent()) {
+				return data2.get().getUserId().getGroupsAsMember();
+			} else {
 			return null;
-		} 
+			}
+		}
 	}
 	
 	@GetMapping("/api/group/{groupId}")
