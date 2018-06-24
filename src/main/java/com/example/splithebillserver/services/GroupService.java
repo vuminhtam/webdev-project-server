@@ -144,6 +144,45 @@ public class GroupService {
 		}
 	}
 	
+	@PostMapping("/api/group/{groupId}/newMember/{memberId}")
+	public List<User> addMemberToGroup(
+			@PathVariable("groupId") int groupId,
+			@PathVariable("memberId") int memberId) {
+		Optional<BillGroup> data = groupRepo.findById(groupId);
+		Optional<User> memData = userRepo.findById(memberId);
+
+		if(data.isPresent() && memData.isPresent()) {
+			BillGroup group = data.get();
+			User newMem = memData.get();
+			group.getMembers().add(newMem);
+			newMem.getGroupsAsMember().add(group);
+			groupRepo.save(group);
+			userRepo.save(newMem);
+			return group.getMembers();
+		} else {
+			throw new IllegalArgumentException("Could not find group " + groupId + " or member " + memberId);
+		}
+	}
+	
+//	@PostMapping("/api/group/{groupId}/newMember/{}")
+//	public BillGroup addMemberToGroup(
+//			@PathVariable("groupId") int groupId,
+//			@RequestBody User newMemm) {
+//		System.out.println("Helloooo!!");
+//		Optional<BillGroup> data = groupRepo.findById(groupId);
+//		Optional<User> memData = userRepo.findById(newMemm.getId());
+//
+//		if(data.isPresent() && memData.isPresent()) {
+//			BillGroup group = data.get();
+//			User newMem = memData.get();
+//			group.getMembers().add(newMem);
+//			newMem.getGroupsAsMember().add(group);
+//			return group;
+//		} else {
+//			throw new IllegalArgumentException("Could not find group " + groupId);
+//		}
+//	}
+	
 //	@GetMapping("/api/group/{groupId}/due")
 //	public List<PaymentDue> getPaymentDue(@PathVariable("groupId") int groupId) {
 //		Optional<Group> data = groupRepo.findById(groupId);

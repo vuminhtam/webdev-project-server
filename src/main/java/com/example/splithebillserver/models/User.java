@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -25,8 +26,8 @@ public class User extends Person{
 	@JsonIgnore
 	private List<BillGroup> groupsAsAdmin;
 	
-	@ManyToMany(cascade= {CascadeType.ALL})
-	 @JoinTable(
+	@ManyToMany(cascade= {CascadeType.ALL}, fetch = FetchType.EAGER)
+	@JoinTable(
 		        name = "Group_GroupMember", 
 		        joinColumns = { @JoinColumn(name = "person_id") }, 
 		        inverseJoinColumns = { @JoinColumn(name = "group_id") }
