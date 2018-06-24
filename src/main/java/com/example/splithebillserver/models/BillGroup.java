@@ -3,6 +3,7 @@ package com.example.splithebillserver.models;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,7 +25,7 @@ public class BillGroup {
 	@JsonIgnore
 	private User admin;
 	
-	@ManyToMany(mappedBy = "groupsAsMember")
+	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "groupsAsMember")
 	private List<User> members;
 	
 	@OneToMany(mappedBy="billGroup")

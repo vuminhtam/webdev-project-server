@@ -1,6 +1,6 @@
 package com.example.splithebillserver.services;
 
-import java.io.PrintStream;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,4 +84,9 @@ public class PersonService {
 	}
 	
 	
+	
+	@GetMapping("/api/user")
+	public List<User> getAllRegisteredUsers() {
+		return (List<User>) userRepo.findAll();
+	}
 }
