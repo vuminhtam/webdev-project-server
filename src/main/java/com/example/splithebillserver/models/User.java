@@ -4,10 +4,12 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -33,6 +35,9 @@ public class User extends Person{
 		    )
 	@JsonIgnore
 	private List<BillGroup> groupsAsMember;
+	
+	@OneToOne(mappedBy="userId", cascade=CascadeType.ALL, fetch=FetchType.LAZY, optional=true)
+	private FacebookUser fbId;
 	
 	public List<BillGroup> getGroupsAsMember() {
 		return groupsAsMember;
@@ -76,6 +81,13 @@ public class User extends Person{
 	public void setExpenses(List<Expense> expenses) {
 		this.expenses = expenses;
 	}
+	public FacebookUser getFbId() {
+		return fbId;
+	}
+	public void setFbId(FacebookUser fbId) {
+		this.fbId = fbId;
+	}
+	
 	
 	
 	

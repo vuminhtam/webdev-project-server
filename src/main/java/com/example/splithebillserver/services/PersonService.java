@@ -1,5 +1,6 @@
 package com.example.splithebillserver.services;
 
+import java.io.PrintStream;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,11 +38,13 @@ public class PersonService {
 	
 	@PostMapping("/api/user")
 	public User registerUser(@RequestBody User newUser) throws Exception {
+		System.out.print(newUser.getId());
 		if (userRepo.findUserByUsername(newUser.getUsername()).isPresent()) {
 			throw new Exception("Username taken");
 		} else {
-		return userRepo.save(newUser);
+			return userRepo.save(newUser);
 		}
+		
 	}
 	
 	@DeleteMapping("/api/user/{userId}")
