@@ -83,7 +83,7 @@ public class PersonService {
 	@PostMapping("/api/login")
 	public User login(@RequestBody User user) throws Exception {
 		if (userRepo.findUserByCredentials(user.getUsername(), user.getPassword()).isPresent()) {
-			return user;
+			return userRepo.findUserByCredentials(user.getUsername(), user.getPassword()).get();
 		} else {
 			throw new Exception("Account does not exist");
 		}
