@@ -156,7 +156,7 @@ public class GroupService {
 	@PostMapping("/api/group/{groupId}/newMember/{memberId}")
 	public List<User> addMemberToGroup(
 			@PathVariable("groupId") int groupId,
-			@PathVariable("memberId") int memberId) {
+			@PathVariable("memberId") long memberId) {
 		Optional<BillGroup> data = groupRepo.findById(groupId);
 		Optional<User> memData = userRepo.findById(memberId);
 
