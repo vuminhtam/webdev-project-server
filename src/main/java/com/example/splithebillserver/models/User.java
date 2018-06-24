@@ -36,7 +36,7 @@ public class User extends Person{
 	@JsonIgnore
 	private List<BillGroup> groupsAsMember;
 	
-	@OneToOne(mappedBy="userId", cascade=CascadeType.ALL, fetch=FetchType.LAZY, optional=true)
+	@OneToOne(mappedBy="userId", cascade=CascadeType.ALL, fetch=FetchType.LAZY, optional=false)
 	private FacebookUser fbId;
 	
 	public List<BillGroup> getGroupsAsMember() {

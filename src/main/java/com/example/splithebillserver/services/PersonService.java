@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.splithebillserver.models.BillGroup;
+import com.example.splithebillserver.models.FacebookUser;
 import com.example.splithebillserver.models.User;
+import com.example.splithebillserver.repositories.FacebookUserRepository;
 import com.example.splithebillserver.repositories.UserRepository;
 
 @RestController
@@ -24,25 +25,39 @@ public class PersonService {
 	@Autowired
 	UserRepository userRepo;
 	
+	@Autowired
+	FacebookUserRepository fbRepo;
+	
 	@GetMapping("/api/user/{userId}")
-	public User getUserById(@PathVariable("userId") long userId) {
-		System.out.print(userId);
+	public User getUserById(@PathVariable("userId") Long userId) {
 		Optional<User> data = userRepo.findById(userId);
 		if(data.isPresent()) {
 			return data.get();
 		}
 		else {
+			Optional<FacebookUser> data2 = fbRepo.findById(userId);
+			if(data2.isPresent()) {
+				return data2.get().getUserId();
+			} else {
 			return null;
+			}
 		}
 	}
 	
-	@PostMapping("/api/user")
-	public User registerUser(@RequestBody User newUser) throws Exception {
-		System.out.print(newUser.getId());
+	@PostMapping("/api/user/{fbId}")
+	public User registerUser(@RequestBody User newUser, @PathVariable("fbId") Long facebookId) throws Exception {
 		if (userRepo.findUserByUsername(newUser.getUsername()).isPresent()) {
 			throw new Exception("Username taken");
 		} else {
-			return userRepo.save(newUser);
+			User newMember = userRepo.save(newUser);
+			System.out.println("fbid:"+facebookId);
+			if(facebookId == 0) {
+				return newMember;
+			} else {
+				FacebookUser fb = new FacebookUser(facebookId, newMember);
+				fbRepo.save(fb);
+				return newMember;
+			}
 		}
 		
 	}
