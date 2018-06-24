@@ -78,7 +78,7 @@ public class ExpenseService {
 	
 	@PostMapping("/api/user/{uid}/group/{groupId}/expense")
 	public Expense addExpenseToGroup(
-			@PathVariable("uid") int uid,
+			@PathVariable("uid") long uid,
 			@PathVariable("groupId") int groupId,
 			@RequestBody Expense newExpense) {
 		if(newExpense.getExpenseType() == null || newExpense.getExpenseType().equals("")) {

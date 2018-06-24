@@ -44,7 +44,7 @@ public class GroupService {
 	}
 	
 	@GetMapping("/api/user/{userId}/group")
-	public List<BillGroup> getGroupForUser(@PathVariable ("userId") int userId) {
+	public List<BillGroup> getGroupForUser(@PathVariable ("userId") long userId) {
 		Optional<User> data = userRepo.findById(userId);
 		if(data.isPresent()) {
 			User user = data.get();
@@ -58,7 +58,7 @@ public class GroupService {
 	}
 	
 	@GetMapping("/api/user/{userId}/admin/group")
-	public List<BillGroup> getGroupForUserAdmin(@PathVariable ("userId") int userId) {
+	public List<BillGroup> getGroupForUserAdmin(@PathVariable ("userId") long userId) {
 		Optional<User> data = userRepo.findById(userId);
 		if(data.isPresent()) {
 			return data.get().getGroupsAsAdmin();
@@ -69,7 +69,7 @@ public class GroupService {
 	}
 	
 	@GetMapping("/api/user/{userId}/member/group")
-	public List<BillGroup> getGroupForUserMember(@PathVariable ("userId") int userId) {
+	public List<BillGroup> getGroupForUserMember(@PathVariable ("userId") long userId) {
 		Optional<User> data = userRepo.findById(userId);
 		if(data.isPresent()) {
 			return data.get().getGroupsAsMember();
@@ -91,7 +91,7 @@ public class GroupService {
 	}
 	
 	@PostMapping("/api/user/{userId}/group")
-	public BillGroup addGroupByUserId(@RequestBody BillGroup group, @PathVariable ("userId") int userId ) {
+	public BillGroup addGroupByUserId(@RequestBody BillGroup group, @PathVariable ("userId") long userId ) {
 		Optional<User> data = userRepo.findById(userId);
 		if(data.isPresent()) {
 			User user = data.get();
@@ -119,6 +119,15 @@ public class GroupService {
 			group.setMembers(newGroup.getMembers());
 			group.setExpenses(newGroup.getExpenses());
 			group.setPaymentDue(newGroup.getPaymentDue());
+		}
+	}
+	
+	@PutMapping("/api/group/{groupId}/members")
+	public void updateGroupMembers(@PathVariable("groupId") int groupId, @RequestBody List<User> newGroupMembers) {
+		Optional<BillGroup> data = groupRepo.findById(groupId);
+		if(data.isPresent()) {
+			BillGroup group = data.get();
+			group.setMembers(newGroupMembers);
 		}
 	}
 	
