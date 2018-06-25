@@ -172,7 +172,6 @@ public class GroupService {
 		} else {
 			return null;
 		}
-		return null;
 	}
 	
 	@GetMapping("/api/group/{groupId}/members")
