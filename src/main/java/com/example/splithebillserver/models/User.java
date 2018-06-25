@@ -20,6 +20,28 @@ public class User extends Person{
 	private String phone;
 	private String pictureURL;
 	
+	@OneToMany(mappedBy="from")
+	@JsonIgnore
+	private List<PaymentDue> duesPay;
+	
+	@OneToMany(mappedBy="to")
+	@JsonIgnore
+	private List<PaymentDue> duesReceive;
+	
+	
+	
+	public List<PaymentDue> getDuesPay() {
+		return duesPay;
+	}
+	public void setDuesPay(List<PaymentDue> duesPay) {
+		this.duesPay = duesPay;
+	}
+	public List<PaymentDue> getDuesReceive() {
+		return duesReceive;
+	}
+	public void setDuesReceive(List<PaymentDue> duesReceive) {
+		this.duesReceive = duesReceive;
+	}
 	@OneToMany(mappedBy="expenser")
 	@JsonIgnore
 	private List<Expense> expenses;

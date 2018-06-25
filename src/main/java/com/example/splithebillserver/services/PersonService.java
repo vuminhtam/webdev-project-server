@@ -1,5 +1,6 @@
 package com.example.splithebillserver.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.splithebillserver.models.Expense;
 import com.example.splithebillserver.models.FacebookUser;
+import com.example.splithebillserver.models.PaymentDue;
 import com.example.splithebillserver.models.User;
 import com.example.splithebillserver.repositories.FacebookUserRepository;
 import com.example.splithebillserver.repositories.UserRepository;
@@ -112,6 +114,18 @@ public class PersonService {
 		Optional<User> data = userRepo.findById(userId);
 		if (data.isPresent()) {
 			return data.get().getExpenses();
+		}
+		return null;
+	}
+	
+	@GetMapping("/api/user/{userId}/due")
+	public List<PaymentDue> getAllDuesForUser(@PathVariable("userId") Long userId) {
+		Optional<User> data = userRepo.findById(userId);
+		List<PaymentDue> result = new ArrayList<PaymentDue>();
+		if (data.isPresent()) {
+			result.addAll(data.get().getDuesPay());
+			result.addAll(data.get().getDuesReceive());
+			return result;
 		}
 		return null;
 	}
