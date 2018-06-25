@@ -77,6 +77,7 @@ public class PersonService {
 			user.setPhone(newUser.getPhone());
 			user.setPictureURL(newUser.getPictureURL());
 			user.setUsername(newUser.getUsername());
+			userRepo.save(user);
 		}
 	}
 	
