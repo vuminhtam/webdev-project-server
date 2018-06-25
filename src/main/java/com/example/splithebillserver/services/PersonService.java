@@ -19,6 +19,7 @@ import com.example.splithebillserver.models.FacebookUser;
 import com.example.splithebillserver.models.PaymentDue;
 import com.example.splithebillserver.models.User;
 import com.example.splithebillserver.repositories.FacebookUserRepository;
+import com.example.splithebillserver.repositories.SystemAdminRepository;
 import com.example.splithebillserver.repositories.UserRepository;
 
 @RestController
@@ -92,7 +93,7 @@ public class PersonService {
 			throw new Exception("Account does not exist");
 		}
 	}
-	
+
 	@GetMapping("/api/username/{username}")
 	public User findUserByUsername(@PathVariable("username") String username) {
 		Optional<User> data = userRepo.findUserByUsername(username);

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.splithebillserver.models.SystemAdmin;
+import com.example.splithebillserver.models.User;
 import com.example.splithebillserver.repositories.SystemAdminRepository;
 
 @RestController
@@ -39,6 +40,15 @@ public class AdminService {
 		}
 		else {
 			return null;
+		}
+	}
+	
+	@PostMapping("/api/admin/login")
+	public SystemAdmin login(@RequestBody User user) throws Exception {
+		if (repo.findUserByCredentials(user.getUsername(), user.getPassword()).isPresent()) {
+			return repo.findUserByCredentials(user.getUsername(), user.getPassword()).get();
+		} else {
+			throw new Exception("Account does not exist");
 		}
 	}
 }
