@@ -35,7 +35,9 @@ public class PaymentDueService {
 		Optional<BillGroup> optionalGroup = groupRepo.findById(groupId);
 		if(optionalGroup.isPresent()) {
 			BillGroup group = optionalGroup.get();
-			List<PaymentDue> paymentDues = group.getPaymentDue();
+//			List<PaymentDue> paymentDues = group.getPaymentDue();
+			List<PaymentDue> paymentDues = this.calculateDues(group);
+			group.setPaymentDue(paymentDues);
 			return paymentDues;
 		}
 		else {
@@ -74,13 +76,23 @@ public class PaymentDueService {
 		}
 	}
 	
+	//check if member expensed in the group
+	private boolean contains(List<Expense> expenses, User member) {
+		for(Expense e: expenses) {
+			if(e.getExpenser().getId() == member.getId()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	private List<PaymentDue> calculateDues(BillGroup group) {
 
 		List<Expense> expenses = group.getExpenses();
 		//add expenses = 0 of users not expensed
 		for(User mem: group.getMembers()) {
 			if(!this.contains(expenses, mem)) {
-				expenses.add(new Expense())
+				expenses.add(new Expense(group, mem, 0));
 			}
 		}
 		
@@ -97,9 +109,6 @@ public class PaymentDueService {
 		
 		for(int i = 0; i < group.getMembers().size(); i++) {
 			User member = group.getMembers().get(i);
-//			for(Expense e : expenses) {
-//				
-//			}
 			Expense e = expenses.get(i);
 			int userBalance = e.getAmmount() - balance;
 			balances[i] = new UserBalance(e.getExpenser(), userBalance);

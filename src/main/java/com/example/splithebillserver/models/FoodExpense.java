@@ -4,6 +4,10 @@ import javax.persistence.Entity;
 
 @Entity
 public class FoodExpense extends Expense {
+	public FoodExpense(BillGroup group, User mem, int ammount) {
+		super(group, mem, ammount);
+	}
+
 	private String restaurant;
 
 	public String getRestaurant() {
