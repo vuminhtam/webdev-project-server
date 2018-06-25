@@ -1,5 +1,6 @@
 package com.example.splithebillserver.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -157,12 +158,19 @@ public class GroupService {
 	}
 	
 	@PutMapping("/api/group/{groupId}/members")
-	public BillGroup updateGroupMembers(@PathVariable("groupId") int groupId, @RequestBody List<User> newGroupMembers) {
+	public List<User> updateGroupMembers(@PathVariable("groupId") int groupId, @RequestBody List<User> newGroupMembers) {
 		Optional<BillGroup> data = groupRepo.findById(groupId);
 		if(data.isPresent()) {
 			BillGroup group = data.get();
-			group.setMembers(newGroupMembers);
-			return groupRepo.save(group);
+			group.setMembers(new ArrayList<User>());
+			for(int i=0; i < newGroupMembers.size(); i++) {
+				newGroupMembers.get(i).getGroupsAsMember().remove(group);
+				this.addMemberToGroup(groupId, newGroupMembers.get(i).getId());
+			}
+			groupRepo.save(group);
+			return group.getMembers();
+		} else {
+			return null;
 		}
 		return null;
 	}
