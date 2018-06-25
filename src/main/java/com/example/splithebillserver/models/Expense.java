@@ -21,7 +21,7 @@ public class Expense {
 	private int ammount;
 	private String expenseType;
 	private String note;
-	private Date expenseDate;
+	private String expenseDate;
 
 	@ManyToOne
 	@JsonIgnore
@@ -34,7 +34,6 @@ public class Expense {
 		this.billGroup = billGroup;
 	}
 	@ManyToOne
-	@JsonIgnore
 	private User expenser; 
 	
 	public int getId() {
@@ -62,16 +61,16 @@ public class Expense {
 	public void setNote(String note) {
 		this.note = note;
 	}
-	public Date getExpenseDate() {
-		return expenseDate;
-	}
-	public void setExpenseDate(Date expenseDate) {
-		this.expenseDate = expenseDate;
-	}
 	public String getExpenseType() {
 		return expenseType;
 	}
 	public void setExpenseType(String expenseType) {
 		this.expenseType = expenseType;
+	}
+	public String getExpenseDate() {
+		return expenseDate;
+	}
+	public void setExpenseDate(String expenseDate) {
+		this.expenseDate = expenseDate;
 	}
 }

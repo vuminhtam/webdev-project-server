@@ -52,6 +52,7 @@ public class GroupService {
 		Optional<User> data = userRepo.findById(userId);
 		if(data.isPresent()) {
 			User user = data.get();
+			System.out.print(user.getUsername());
 			List<BillGroup> group1 = user.getGroupsAsAdmin();
 			group1.addAll(user.getGroupsAsMember());
 			return group1;
@@ -65,11 +66,15 @@ public class GroupService {
 	public List<BillGroup> getGroupForUserAdmin(@PathVariable ("userId") long userId) {
 		Optional<User> data = userRepo.findById(userId);
 		if(data.isPresent()) {
+			System.out.print(data.get().getUsername());
+
 			return data.get().getGroupsAsAdmin();
 		}
 		else {
 			Optional<FacebookUser> data2 = fbRepo.findById(userId);
 			if(data2.isPresent()) {
+				System.out.print(data2.get().getUserId().getUsername());
+
 				return data2.get().getUserId().getGroupsAsAdmin();
 			} else {
 			return null;

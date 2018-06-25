@@ -21,6 +21,7 @@ public class User extends Person{
 	private String pictureURL;
 	
 	@OneToMany(mappedBy="expenser")
+	@JsonIgnore
 	private List<Expense> expenses;
 	
 	@OneToMany(mappedBy = "admin")

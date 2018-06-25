@@ -75,26 +75,45 @@ public class PaymentDueService {
 	}
 	
 	private List<PaymentDue> calculateDues(BillGroup group) {
+
 		List<Expense> expenses = group.getExpenses();
+		//add expenses = 0 of users not expensed
+		for(User mem: group.getMembers()) {
+			if(!this.contains(expenses, mem)) {
+				expenses.add(new Expense())
+			}
+		}
+		
 		//calculate total expenses
 		int totalExpenses = 0;
 		for(Expense e: expenses) {
 			totalExpenses += e.getAmmount();
 		}
 		int balance = totalExpenses/group.getMembers().size();
+
 		//list of balances
-		UserBalance[] balances = new UserBalance[expenses.size()];
-		for(int i = 0; i < expenses.size(); i++) {
+		UserBalance[] balances = new UserBalance[group.getMembers().size()];
+		
+		
+		for(int i = 0; i < group.getMembers().size(); i++) {
+			User member = group.getMembers().get(i);
+//			for(Expense e : expenses) {
+//				
+//			}
 			Expense e = expenses.get(i);
 			int userBalance = e.getAmmount() - balance;
 			balances[i] = new UserBalance(e.getExpenser(), userBalance);
 		}
+		
+		System.out.println("balances " + balances.length + " expense size " + expenses.size());
+		
 		//sort ascending
 		Arrays.sort(balances);
 		//partition to 2 groups
 		List<UserBalance> receive = new ArrayList<UserBalance>();
 		List<UserBalance> pay = new ArrayList<UserBalance>();
 		for(UserBalance b: balances) {
+			System.out.print("balance for "+ b.getUser().getUsername() + " ammount "+b.getAmmount());
 			if(b.getAmmount() >= 0) {
 				receive.add(b);
 			}
@@ -102,6 +121,10 @@ public class PaymentDueService {
 				pay.add(b);
 			}
 		}
+//		
+//		System.out.println("receive list: " + receive.get(0).getUser().getUsername());
+//		System.out.println("pay list: " + pay.get(0).getUser().getUsername());
+
 		//payList pays the receiveList
 		int i = 0;
 		int j = 0;
