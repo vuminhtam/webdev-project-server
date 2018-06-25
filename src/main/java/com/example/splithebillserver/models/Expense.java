@@ -22,11 +22,20 @@ public class Expense {
 	private String expenseType;
 	private String note;
 	private String expenseDate;
+	
 
 	@ManyToOne
 	@JsonIgnore
 	private BillGroup billGroup;
 	
+	public Expense() {
+	}
+	
+	public Expense(BillGroup group, User mem, int ammount) {
+		this.billGroup = group;
+		this.expenser = mem;
+		this.ammount = ammount;
+	}
 	public BillGroup getBillGroup() {
 		return billGroup;
 	}

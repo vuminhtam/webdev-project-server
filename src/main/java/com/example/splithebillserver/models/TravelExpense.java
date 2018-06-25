@@ -4,6 +4,9 @@ import javax.persistence.Entity;
 
 @Entity
 public class TravelExpense extends Expense {
+	public TravelExpense(BillGroup group, User mem, int ammount) {
+		super(group, mem, ammount);
+	}
 	private String org;
 	private String dest;
 	private String transportation; //plane/taxi...
