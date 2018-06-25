@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.splithebillserver.models.Expense;
 import com.example.splithebillserver.models.FacebookUser;
 import com.example.splithebillserver.models.User;
 import com.example.splithebillserver.repositories.FacebookUserRepository;
@@ -104,5 +105,14 @@ public class PersonService {
 	@GetMapping("/api/user")
 	public List<User> getAllRegisteredUsers() {
 		return (List<User>) userRepo.findAll();
+	}
+	
+	@GetMapping("/api/user/{userId}/expenses")
+	public List<Expense> getAllExpensesforUser(@PathVariable("userId") Long userId) {
+		Optional<User> data = userRepo.findById(userId);
+		if (data.isPresent()) {
+			return data.get().getExpenses();
+		}
+		return null;
 	}
 }

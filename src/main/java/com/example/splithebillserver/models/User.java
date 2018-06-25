@@ -24,7 +24,7 @@ public class User extends Person{
 	@JsonIgnore
 	private List<Expense> expenses;
 	
-	@OneToMany(mappedBy = "admin")
+	@OneToMany(cascade= {CascadeType.ALL}, mappedBy = "admin")
 	@JsonIgnore
 	private List<BillGroup> groupsAsAdmin;
 	

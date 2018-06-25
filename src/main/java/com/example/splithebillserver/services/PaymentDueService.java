@@ -59,97 +59,97 @@ public class PaymentDueService {
 		}
 	}
 	
-	@PutMapping("/api/group/{groupId}/due/calculate")
-	public List<PaymentDue> calculateCurrentDues(
-			@PathVariable("groupId") int groupId) {
-		Optional<BillGroup> optionalGroup = groupRepo.findById(groupId);
-		if(optionalGroup.isPresent()) {
-			BillGroup group = optionalGroup.get();
-			group.setPaymentDue(this.calculateDues(group));
-			groupRepo.save(group);
-			return group.getPaymentDue();
-		}
-		else {
-			throw new IllegalArgumentException("Cannot find group " + groupId);
-		}
-	}
-	
-	private List<PaymentDue> calculateDues(BillGroup group) {
-
-		List<Expense> expenses = group.getExpenses();
-		//add expenses = 0 of users not expensed
-		for(User mem: group.getMembers()) {
-			if(!this.contains(expenses, mem)) {
-				expenses.add(new Expense())
-			}
-		}
-		
-		//calculate total expenses
-		int totalExpenses = 0;
-		for(Expense e: expenses) {
-			totalExpenses += e.getAmmount();
-		}
-		int balance = totalExpenses/group.getMembers().size();
-
-		//list of balances
-		UserBalance[] balances = new UserBalance[group.getMembers().size()];
-		
-		
-		for(int i = 0; i < group.getMembers().size(); i++) {
-			User member = group.getMembers().get(i);
-//			for(Expense e : expenses) {
-//				
+//	@PutMapping("/api/group/{groupId}/due/calculate")
+//	public List<PaymentDue> calculateCurrentDues(
+//			@PathVariable("groupId") int groupId) {
+//		Optional<BillGroup> optionalGroup = groupRepo.findById(groupId);
+//		if(optionalGroup.isPresent()) {
+//			BillGroup group = optionalGroup.get();
+//			group.setPaymentDue(this.calculateDues(group));
+//			groupRepo.save(group);
+//			return group.getPaymentDue();
+//		}
+//		else {
+//			throw new IllegalArgumentException("Cannot find group " + groupId);
+//		}
+//	}
+//	
+//	private List<PaymentDue> calculateDues(BillGroup group) {
+//
+//		List<Expense> expenses = group.getExpenses();
+//		//add expenses = 0 of users not expensed
+//		for(User mem: group.getMembers()) {
+//			if(!this.contains(expenses, mem)) {
+//				expenses.add(new Expense())
 //			}
-			Expense e = expenses.get(i);
-			int userBalance = e.getAmmount() - balance;
-			balances[i] = new UserBalance(e.getExpenser(), userBalance);
-		}
-		
-		System.out.println("balances " + balances.length + " expense size " + expenses.size());
-		
-		//sort ascending
-		Arrays.sort(balances);
-		//partition to 2 groups
-		List<UserBalance> receive = new ArrayList<UserBalance>();
-		List<UserBalance> pay = new ArrayList<UserBalance>();
-		for(UserBalance b: balances) {
-			System.out.print("balance for "+ b.getUser().getUsername() + " ammount "+b.getAmmount());
-			if(b.getAmmount() >= 0) {
-				receive.add(b);
-			}
-			else {
-				pay.add(b);
-			}
-		}
+//		}
 //		
-//		System.out.println("receive list: " + receive.get(0).getUser().getUsername());
-//		System.out.println("pay list: " + pay.get(0).getUser().getUsername());
-
-		//payList pays the receiveList
-		int i = 0;
-		int j = 0;
-		List<PaymentDue> dues = new ArrayList<PaymentDue>();
-		while(i < receive.size() && j < pay.size()) {
-			if(receive.get(i).getAmmount() == 0) {
-				continue; //this user does not need any paymentDue
-			} else {
-				//pay pays the receive 
-				int ammount = Math.min(receive.get(i).getAmmount(), receive.get(j).getAmmount());
-				//create paymentDue from pay to receive
-				dues.add(new PaymentDue(pay.get(j).getUser(), receive.get(j).getUser(), ammount));
-				receive.get(i).setAmmount(Math.abs(receive.get(i).getAmmount() - ammount));
-				pay.get(j).setAmmount(Math.abs(pay.get(j).getAmmount() - ammount));
-			}
-			//move on to the next user for i and j
-			if(receive.get(i).getAmmount() == 0) {
-				i++; //receive enough 
-			}
-			if(pay.get(j).getAmmount() == 0) {
-				j++; //pay enough
-			}
-		}
-		return dues;
-	}
+//		calculate total expenses
+//		int totalExpenses = 0;
+//		for(Expense e: expenses) {
+//			totalExpenses += e.getAmmount();
+//		}
+//		int balance = totalExpenses/group.getMembers().size();
+//
+//		//list of balances
+//		UserBalance[] balances = new UserBalance[group.getMembers().size()];
+//		
+//		
+//		for(int i = 0; i < group.getMembers().size(); i++) {
+//			User member = group.getMembers().get(i);
+////			for(Expense e : expenses) {
+////				
+////			}
+//			Expense e = expenses.get(i);
+//			int userBalance = e.getAmmount() - balance;
+//			balances[i] = new UserBalance(e.getExpenser(), userBalance);
+//		}
+//		
+//		System.out.println("balances " + balances.length + " expense size " + expenses.size());
+//		
+//		//sort ascending
+//		Arrays.sort(balances);
+//		//partition to 2 groups
+//		List<UserBalance> receive = new ArrayList<UserBalance>();
+//		List<UserBalance> pay = new ArrayList<UserBalance>();
+//		for(UserBalance b: balances) {
+//			System.out.print("balance for "+ b.getUser().getUsername() + " ammount "+b.getAmmount());
+//			if(b.getAmmount() >= 0) {
+//				receive.add(b);
+//			}
+//			else {
+//				pay.add(b);
+//			}
+//		}
+////		
+////		System.out.println("receive list: " + receive.get(0).getUser().getUsername());
+////		System.out.println("pay list: " + pay.get(0).getUser().getUsername());
+//
+//		//payList pays the receiveList
+//		int i = 0;
+//		int j = 0;
+//		List<PaymentDue> dues = new ArrayList<PaymentDue>();
+//		while(i < receive.size() && j < pay.size()) {
+//			if(receive.get(i).getAmmount() == 0) {
+//				continue; //this user does not need any paymentDue
+//			} else {
+//				//pay pays the receive 
+//				int ammount = Math.min(receive.get(i).getAmmount(), receive.get(j).getAmmount());
+//				//create paymentDue from pay to receive
+//				dues.add(new PaymentDue(pay.get(j).getUser(), receive.get(j).getUser(), ammount));
+//				receive.get(i).setAmmount(Math.abs(receive.get(i).getAmmount() - ammount));
+//				pay.get(j).setAmmount(Math.abs(pay.get(j).getAmmount() - ammount));
+//			}
+//			//move on to the next user for i and j
+//			if(receive.get(i).getAmmount() == 0) {
+//				i++; //receive enough 
+//			}
+//			if(pay.get(j).getAmmount() == 0) {
+//				j++; //pay enough
+//			}
+//		}
+//		return dues;
+//	}
 	
 	private final class UserBalance implements Comparable {
 		private User user;
