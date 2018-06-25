@@ -111,20 +111,20 @@ public class PersonService {
 	
 	@GetMapping("/api/user/{userId}/expenses")
 	public List<Expense> getAllExpensesforUser(@PathVariable("userId") Long userId) {
-		Optional<User> data = userRepo.findById(userId);
-		if (data.isPresent()) {
-			return data.get().getExpenses();
+		User data = this.getUserById(userId);
+		if (data != null) {
+			return data.getExpenses();
 		}
 		return null;
 	}
 	
 	@GetMapping("/api/user/{userId}/due")
 	public List<PaymentDue> getAllDuesForUser(@PathVariable("userId") Long userId) {
-		Optional<User> data = userRepo.findById(userId);
+		User data = this.getUserById(userId);
 		List<PaymentDue> result = new ArrayList<PaymentDue>();
-		if (data.isPresent()) {
-			result.addAll(data.get().getDuesPay());
-			result.addAll(data.get().getDuesReceive());
+		if (data != null) {
+			result.addAll(data.getDuesPay());
+			result.addAll(data.getDuesReceive());
 			return result;
 		}
 		return null;
