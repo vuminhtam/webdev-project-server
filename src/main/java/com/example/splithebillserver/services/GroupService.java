@@ -158,15 +158,37 @@ public class GroupService {
 	}
 	
 	@PutMapping("/api/group/{groupId}/members")
-	public List<User> updateGroupMembers(@PathVariable("groupId") int groupId, @RequestBody List<User> newGroupMembers) {
+	public List<User> updateGroupMembers(
+			@PathVariable("groupId") int groupId, 
+			@RequestBody List<User> newGroupMembers) {
 		Optional<BillGroup> data = groupRepo.findById(groupId);
+		List<User> newList = new ArrayList<User>();
+		for(User u: newGroupMembers) {
+			newList.add(this.getUserById(u.getId()));
+		}
+		
+		
 		if(data.isPresent()) {
 			BillGroup group = data.get();
-			group.setMembers(new ArrayList<User>());
-			for(int i=0; i < newGroupMembers.size(); i++) {
-				newGroupMembers.get(i).getGroupsAsMember().remove(group);
-				this.addMemberToGroup(groupId, newGroupMembers.get(i).getId());
+//			group.setMembers(new ArrayList<User>());
+//			groupRepo.save(group);
+//			for(int i = 0; i < newList.size(); i++) {
+//				newList.get(i).getGroupsAsMember().remove(group);
+//				this.addMemberToGroup(groupId, newList.get(i).getId());
+//			}
+//			groupRepo.save(group);
+			
+			
+			//remove group from the users not in the list
+			for(User wasInGroup: group.getMembers()) {
+				if(!newList.contains(wasInGroup)) {
+					wasInGroup.getGroupsAsMember().remove(group);
+					userRepo.save(wasInGroup);
+				}
 			}
+			
+			
+			group.setMembers(newList);
 			groupRepo.save(group);
 			return group.getMembers();
 		} else {
@@ -207,6 +229,7 @@ public class GroupService {
 			BillGroup group = data.get();
 			User newMem = memData.get();
 			if(group.getMembers().contains(newMem)) {
+				System.out.println(newMem.getUsername() + " is in group");
 				throw new IllegalArgumentException("User already in group!");
 			} 
 
