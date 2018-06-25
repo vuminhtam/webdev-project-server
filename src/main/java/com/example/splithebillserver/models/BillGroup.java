@@ -22,7 +22,6 @@ public class BillGroup {
 	private String note;
 	
 	@ManyToOne
-	@JsonIgnore
 	private User admin;
 	
 	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "groupsAsMember")

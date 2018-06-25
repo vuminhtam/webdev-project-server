@@ -32,7 +32,15 @@ public class PaymentDue {
 	@JsonIgnore
 	private BillGroup billGroup;
 	
+	public PaymentDue() {
+		// DEFAULT CONSTRUCTOR
+	}
 	
+	public PaymentDue(User from, User to, int ammount) {
+		this.from = from;
+		this.to = to;
+		this.ammountDue = ammount;
+	}
 	
 	public int getId() {
 		return id;
