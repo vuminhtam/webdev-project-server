@@ -109,12 +109,27 @@ public class GroupService {
 		} 
 	}
 	
-	@PostMapping("/api/user/{userId}/group")
-	public BillGroup addGroupByUserId(@RequestBody BillGroup group, @PathVariable ("userId") long userId ) {
+	private User getUserById(Long userId) {
 		Optional<User> data = userRepo.findById(userId);
 		if(data.isPresent()) {
-			User user = data.get();
-			group.setAdmin(user);
+			return data.get();
+		}
+		else {
+			Optional<FacebookUser> data2 = fbRepo.findById(userId);
+			if(data2.isPresent()) {
+				return data2.get().getUserId();
+			} else {
+			return null;
+			}
+		}
+	}
+	
+	@PostMapping("/api/user/{userId}/group")
+	public BillGroup addGroupByUserId(@RequestBody BillGroup group, @PathVariable ("userId") long userId ) {
+		User data = this.getUserById(userId);
+		if(data != null) {
+//			User user = data.get();
+			group.setAdmin(data);
 			return groupRepo.save(group);
 		}
 		else {
@@ -142,12 +157,14 @@ public class GroupService {
 	}
 	
 	@PutMapping("/api/group/{groupId}/members")
-	public void updateGroupMembers(@PathVariable("groupId") int groupId, @RequestBody List<User> newGroupMembers) {
+	public BillGroup updateGroupMembers(@PathVariable("groupId") int groupId, @RequestBody List<User> newGroupMembers) {
 		Optional<BillGroup> data = groupRepo.findById(groupId);
 		if(data.isPresent()) {
 			BillGroup group = data.get();
 			group.setMembers(newGroupMembers);
+			return groupRepo.save(group);
 		}
+		return null;
 	}
 	
 	@GetMapping("/api/group/{groupId}/members")
@@ -182,6 +199,10 @@ public class GroupService {
 		if(data.isPresent() && memData.isPresent()) {
 			BillGroup group = data.get();
 			User newMem = memData.get();
+			if(group.getMembers().contains(newMem)) {
+				throw new IllegalArgumentException("User already in group!");
+			} 
+
 			group.getMembers().add(newMem);
 			newMem.getGroupsAsMember().add(group);
 			groupRepo.save(group);
