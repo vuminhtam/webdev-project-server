@@ -77,7 +77,7 @@ public class PersonService {
 		if(data.isPresent()) {
 			User user = data.get();
 			user.setEmail(newUser.getEmail());
-			user.setPassword(newUser.getPassword());
+			//user.setPassword(newUser.getPassword());
 			user.setPhone(newUser.getPhone());
 			user.setPictureURL(newUser.getPictureURL());
 			user.setUsername(newUser.getUsername());
